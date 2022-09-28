@@ -1,7 +1,7 @@
 version: "3.9"
 services:
   app:
-    container_name: test-gateway
+    container_name: ApiGateway
     build:
       context: .
       dockerfile: ./Dockerfile
