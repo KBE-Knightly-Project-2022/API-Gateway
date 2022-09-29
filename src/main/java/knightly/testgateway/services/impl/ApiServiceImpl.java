@@ -2,6 +2,7 @@ package knightly.testgateway.services.impl;
 
 import knightly.testgateway.api.dto.CreateProductRequest;
 import knightly.testgateway.client.ProductService;
+import knightly.testgateway.client.dto.AgeReply;
 import knightly.testgateway.client.dto.ComponentDTO;
 import knightly.testgateway.client.dto.ProductDTO;
 import knightly.testgateway.enums.Currency;
@@ -33,7 +34,7 @@ public class ApiServiceImpl implements ApiService {
     }
 
     @Override
-    public String getAge(String name) {
+    public AgeReply getAge(String name) {
         return this.productService.getAge(name);
     }
 }
