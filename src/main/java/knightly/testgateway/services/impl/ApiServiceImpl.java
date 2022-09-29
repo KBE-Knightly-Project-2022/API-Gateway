@@ -20,12 +20,12 @@ public class ApiServiceImpl implements ApiService {
 
     @Override
     public List<ComponentDTO> getAllComponentDTOs(Currency currency) {
-        return this.productService.getComponentDTOs(currency);
+        return this.productService.getAllComponentDTOs(currency);
     }
 
     @Override
     public List<ProductDTO> getAllProductDTOs(Currency currency) {
-        return this.productService.getProductDTOs(currency);
+        return this.productService.getAllProductDTOs(currency);
     }
 
     @Override

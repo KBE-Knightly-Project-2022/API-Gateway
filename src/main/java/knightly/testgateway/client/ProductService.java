@@ -2,6 +2,7 @@ package knightly.testgateway.client;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import knightly.testgateway.client.dto.AgeReply;
 import knightly.testgateway.client.dto.ComponentDTO;
 import knightly.testgateway.client.dto.ProductDTO;
 import knightly.testgateway.client.dto.ProductRequest;
@@ -15,6 +16,7 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
+import java.util.Collections;
 import java.util.List;
 
 public class ProductService {
@@ -30,7 +32,7 @@ public class ProductService {
     @Autowired
     DirectExchange directExchange;
 
-    public List<ComponentDTO> getComponentDTOs(Currency currency) {
+    public List<ComponentDTO> getAllComponentDTOs(Currency currency) {
         ProductRequest productRequest = new ProductRequest(RequestType.getComponents, currency);
         String productRequestJson = convertProductRequestToJson(productRequest);
         String productReply = "";
@@ -41,6 +43,7 @@ public class ProductService {
                     , productRequestJson).toString();
         } catch (AmqpException e) {
             logger.error("Error Connecting to Productservice via RabbitMQ");
+            return Collections.emptyList();
         }
 
         if (checkReplyForError(productReply)){
@@ -49,7 +52,7 @@ public class ProductService {
         return convertJsonToComponentDTOList(productReply);
     }
 
-    public List<ProductDTO> getProductDTOs(Currency currency) {
+    public List<ProductDTO> getAllProductDTOs(Currency currency) {
         ProductRequest productRequest = new ProductRequest(RequestType.getProducts, currency);
         String productRequestJson = convertProductRequestToJson(productRequest);
         String productReply = "";
@@ -60,6 +63,7 @@ public class ProductService {
                     , productRequestJson).toString();
         } catch (AmqpException e) {
             logger.error("Error Connecting to Productservice via RabbitMQ");
+            return Collections.emptyList();
         }
         if (checkReplyForError(productReply)){
             throw new RuntimeException("Error in Product Service handling the Request");
@@ -89,7 +93,7 @@ public class ProductService {
         }
     }
 
-    public String getAge(String name) {
+    public AgeReply getAge(String name) {
         ProductRequest productRequest = new ProductRequest(RequestType.getAge, name);
         String productRequestJson = convertProductRequestToJson(productRequest);
 
@@ -103,7 +107,7 @@ public class ProductService {
             logger.error("Error Connecting to Productservice via RabbitMQ");
         }
 
-        return productReply;
+        return convertJsonDTOtoAgeReply(productReply);
     }
 
     private String convertProductRequestToJson(ProductRequest productRequest) {
@@ -124,7 +128,12 @@ public class ProductService {
                 }.getType());
     }
 
+    private AgeReply convertJsonDTOtoAgeReply(String jsonDTO) {
+        return new Gson().fromJson(jsonDTO, AgeReply.class);
+    }
+
     private boolean checkReplyForError(String reply) {
         return (reply.contains("[Error]"));
     }
+
 }

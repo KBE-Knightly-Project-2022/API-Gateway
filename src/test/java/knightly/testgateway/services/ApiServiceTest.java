@@ -30,7 +30,7 @@ public class ApiServiceTest {
 
         apiService.getAllComponentDTOs(currency);
 
-        Mockito.verify(productService, Mockito.times(1)).getComponentDTOs(currency);
+        Mockito.verify(productService, Mockito.times(1)).getAllComponentDTOs(currency);
     }
 
     @Test
@@ -39,7 +39,7 @@ public class ApiServiceTest {
 
         apiService.getAllProductDTOs(currency);
 
-        Mockito.verify(productService, Mockito.times(1)).getProductDTOs(currency);
+        Mockito.verify(productService, Mockito.times(1)).getAllProductDTOs(currency);
     }
 
     @Test
