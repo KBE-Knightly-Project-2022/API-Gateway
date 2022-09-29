@@ -34,6 +34,6 @@ public class ApiServiceImpl implements ApiService {
 
     @Override
     public String getAge(String name) {
-        return null;
+        return this.productService.getAge(name);
     }
 }
