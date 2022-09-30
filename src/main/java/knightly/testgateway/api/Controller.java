@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.security.access.prepost.PreAuthorize;
 //import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,7 +24,7 @@ public class Controller {
     @Autowired
     ApiServiceImpl apiService;
 
-//    @PreAuthorize("hasRole('user')")
+
     @GetMapping("/components")
     public List<ComponentDTO> getComponents(@RequestParam String currency) {
         Currency currencyEnum = Currency.bronze;
@@ -36,7 +37,6 @@ public class Controller {
 
     }
 
-//    @PreAuthorize("hasRole('user')")
     @GetMapping("/products")
     public List<ProductDTO> getProducts(@RequestParam String currency) {
         Currency currencyEnum = Currency.bronze;
@@ -48,7 +48,6 @@ public class Controller {
         return this.apiService.getAllProductDTOs(currencyEnum);
     }
 
-//    @PreAuthorize("hasRole('user')")
     @PostMapping("/createProduct")
     public void createProduct(@RequestBody CreateProductRequest createProductRequest)  {
         this.apiService.createProduct(createProductRequest);
